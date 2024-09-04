@@ -6,6 +6,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import java.sql.Connection
 import javax.sql.DataSource
@@ -13,6 +14,7 @@ import javax.sql.DataSource
 
 @Configuration
 @Profile("!$UNIT_TEST_PROFILE")
+@EnableJpaAuditing
 class DatabaseConfiguration {
     @Value("\${spring.datasource.url}")
     private val url: String? = null

@@ -1,5 +1,5 @@
-CREATE TABLE daily_sleep_log (
-    id INT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS daily_sleep_log (
+    id INT generated always as identity PRIMARY KEY,
     sleep_start TIMESTAMP NOT NULL,
     sleep_end TIMESTAMP NOT NULL,
     sleep_quality INT NOT NULL,
