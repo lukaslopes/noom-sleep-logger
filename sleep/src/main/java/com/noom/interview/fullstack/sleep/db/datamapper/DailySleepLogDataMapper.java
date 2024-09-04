@@ -18,8 +18,8 @@ public class DailySleepLogDataMapper {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userId;
-    private Instant sleepStart;
-    private Instant sleepEnd;
+    private LocalDateTime sleepStart;
+    private LocalDateTime sleepEnd;
     private Long sleepDuration;
     @Enumerated(EnumType.ORDINAL)
     private SleepQuality sleepQuality;

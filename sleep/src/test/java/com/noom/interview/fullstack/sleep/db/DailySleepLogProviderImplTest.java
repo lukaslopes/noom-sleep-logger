@@ -36,8 +36,8 @@ public class DailySleepLogProviderImplTest {
         ArgumentCaptor<DailySleepLogDataMapper> captor = ArgumentCaptor.forClass(DailySleepLogDataMapper.class);
         verify(sleepLogRepository, times(1)).save(captor.capture());
         DailySleepLogDataMapper data = captor.getValue();
-        Assertions.assertEquals(toSave.getSleepStart().toInstant(ZoneOffset.UTC), data.getSleepStart());
-        Assertions.assertEquals(toSave.getSleepEnd().toInstant(ZoneOffset.UTC), data.getSleepEnd());
+        Assertions.assertEquals(toSave.getSleepStart(), data.getSleepStart());
+        Assertions.assertEquals(toSave.getSleepEnd(), data.getSleepEnd());
         Assertions.assertEquals(toSave.getSleepDuration(), data.getSleepDuration());
         Assertions.assertEquals(toSave.getSleepQuality(), data.getSleepQuality());
         Assertions.assertEquals(toSave.getUserId(), data.getUserId());
@@ -46,15 +46,15 @@ public class DailySleepLogProviderImplTest {
     @Test
     public void findByIntervalTest(){
         DailySleepLogDataMapper resultFixture = DailySleepLogDataMapperFixture.defaultValues();
-        when(sleepLogRepository.findByUserIdAndSleepEndBetween(anyLong(), any(Instant.class), any(Instant.class))).thenReturn(List.of(resultFixture));
+        when(sleepLogRepository.findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(anyLong(), any(LocalDateTime.class), any(LocalDateTime.class))).thenReturn(List.of(resultFixture));
 
         List<DailySleepLog> result = provider.findByUserIdAndInterval(1L, LocalDateTime.now(), LocalDateTime.now());
-        verify(sleepLogRepository, times(1)).findByUserIdAndSleepEndBetween(anyLong(), any(Instant.class), any(Instant.class));
+        verify(sleepLogRepository, times(1)).findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(anyLong(), any(LocalDateTime.class), any(LocalDateTime.class));
         Assertions.assertEquals(1, result.size());
 
         DailySleepLog data = result.get(0);
-        Assertions.assertEquals(resultFixture.getSleepStart(), data.getSleepStart().toInstant(ZoneOffset.UTC));
-        Assertions.assertEquals(resultFixture.getSleepEnd(), data.getSleepEnd().toInstant(ZoneOffset.UTC));
+        Assertions.assertEquals(resultFixture.getSleepStart(), data.getSleepStart());
+        Assertions.assertEquals(resultFixture.getSleepEnd(), data.getSleepEnd());
         Assertions.assertEquals(resultFixture.getSleepDuration(), data.getSleepDuration());
         Assertions.assertEquals(resultFixture.getSleepQuality(), data.getSleepQuality());
         Assertions.assertEquals(resultFixture.getUserId(), data.getUserId());

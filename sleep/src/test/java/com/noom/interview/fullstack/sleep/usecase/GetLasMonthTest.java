@@ -34,7 +34,7 @@ public class GetLasMonthTest {
 
         when(provider.findByUserIdAndInterval(anyLong(), any(LocalDateTime.class), any(LocalDateTime.class)))
             .thenReturn(fixtureList);
-        AvgSleepLog result = getLastMonth.getLastMonth(1L);
+        AvgSleepLog result = getLastMonth.execute(1L);
         assertNotNull(result);
 
         DailySleepLog log1 = fixtureList.get(0);
@@ -66,7 +66,7 @@ public class GetLasMonthTest {
     public void getAvgWhenNull() {
         when(provider.findByUserIdAndInterval(anyLong(), any(LocalDateTime.class), any(LocalDateTime.class)))
             .thenReturn(List.of());
-        AvgSleepLog result = getLastMonth.getLastMonth(1L);
+        AvgSleepLog result = getLastMonth.execute(1L);
         assertNull(result);
     }
 }

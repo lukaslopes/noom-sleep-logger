@@ -45,20 +45,20 @@ public class DailySleepLogRepositoryTests {
 
     @Test
     public void findByUserIdAndIntervalTest() {
-        List<DailySleepLogDataMapper> data = repository.findByUserIdAndSleepEndBetween(2L,
-            LocalDateTime.of(2024, 1, 2, 0, 0).toInstant(ZoneOffset.UTC),
-            LocalDateTime.of(2024, 1, 2, 23, 59).toInstant(ZoneOffset.UTC));
+        List<DailySleepLogDataMapper> data = repository.findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(2L,
+            LocalDateTime.of(2024, 1, 2, 0, 0),
+            LocalDateTime.of(2024, 1, 2, 23, 59));
         Assertions.assertEquals(1, data.size());
         Assertions.assertEquals(SleepQuality.BAD, data.get(0).getSleepQuality());
     }
 
     @Test
     public void findByUserIdAndIntervalTwoDaysTest() {
-        List<DailySleepLogDataMapper> data = repository.findByUserIdAndSleepEndBetween(2L,
-            LocalDateTime.of(2024, 1, 2, 0, 0).toInstant(ZoneOffset.UTC),
-            LocalDateTime.of(2024, 1, 3, 23, 59).toInstant(ZoneOffset.UTC));
+        List<DailySleepLogDataMapper> data = repository.findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(2L,
+            LocalDateTime.of(2024, 1, 2, 0, 0),
+            LocalDateTime.of(2024, 1, 3, 23, 59));
         Assertions.assertEquals(2, data.size());
-        Assertions.assertEquals(SleepQuality.BAD, data.get(0).getSleepQuality());
-        Assertions.assertEquals(SleepQuality.OK, data.get(1).getSleepQuality());
+        Assertions.assertEquals(SleepQuality.BAD, data.get(1).getSleepQuality());
+        Assertions.assertEquals(SleepQuality.OK, data.get(0).getSleepQuality());
     }
 }

@@ -12,10 +12,9 @@ import java.util.stream.*;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 public class DailySleepLogProviderImpl implements DailySleepLogProvider {
 
-    private DailySleepLogRepository repository;
+    private final DailySleepLogRepository repository;
 
     @Override
     public DailySleepLog save(DailySleepLog dailySleepLog) {
@@ -27,9 +26,8 @@ public class DailySleepLogProviderImpl implements DailySleepLogProvider {
 
     @Override
     public List<DailySleepLog> findByUserIdAndInterval(Long userId, LocalDateTime start, LocalDateTime end) {
-        List<DailySleepLogDataMapper> result = repository.findByUserIdAndSleepEndBetween(userId,
-            start.toInstant(ZoneOffset.UTC),
-            end.toInstant(ZoneOffset.UTC));
+        List<DailySleepLogDataMapper> result = repository.findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(userId,
+            start , end);
 
         return result.stream().map(this::toEntity).collect(Collectors.toList());
     }
@@ -37,8 +35,8 @@ public class DailySleepLogProviderImpl implements DailySleepLogProvider {
     private static DailySleepLogDataMapper toDataMapper(DailySleepLog dailySleepLog) {
         return DailySleepLogDataMapper.builder()
             .userId(dailySleepLog.getUserId())
-            .sleepStart(dailySleepLog.getSleepStart().toInstant(ZoneOffset.UTC))
-            .sleepEnd(dailySleepLog.getSleepEnd().toInstant(ZoneOffset.UTC))
+            .sleepStart(dailySleepLog.getSleepStart())
+            .sleepEnd(dailySleepLog.getSleepEnd())
             .sleepDuration(dailySleepLog.getSleepDuration())
             .sleepQuality(dailySleepLog.getSleepQuality())
             .build();
@@ -49,8 +47,8 @@ public class DailySleepLogProviderImpl implements DailySleepLogProvider {
             .id(dailySleepLogDataMapper.getId())
             .userId(dailySleepLogDataMapper.getUserId())
             .sleepDuration(dailySleepLogDataMapper.getSleepDuration())
-            .sleepStart(LocalDateTime.ofInstant(dailySleepLogDataMapper.getSleepStart(), ZoneOffset.UTC))
-            .sleepEnd(LocalDateTime.ofInstant(dailySleepLogDataMapper.getSleepEnd(), ZoneOffset.UTC))
+            .sleepStart(dailySleepLogDataMapper.getSleepStart())
+            .sleepEnd(dailySleepLogDataMapper.getSleepEnd())
             .sleepQuality(dailySleepLogDataMapper.getSleepQuality())
             .build();
     }
