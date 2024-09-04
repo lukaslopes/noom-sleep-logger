@@ -10,5 +10,5 @@ import java.util.*;
 @Repository
 public interface DailySleepLogRepository extends JpaRepository<DailySleepLogDataMapper, Long> {
 
-    List<DailySleepLogDataMapper> findByUserIdAndSleepEndBetween(Long userId, Instant start, Instant end);
+    List<DailySleepLogDataMapper> findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(Long userId, LocalDateTime start, LocalDateTime end);
 }

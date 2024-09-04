@@ -19,7 +19,7 @@ public class GetLastMonth {
         this.provider = provider;
     }
 
-    public AvgSleepLog getLastMonth(Long userId) {
+    public AvgSleepLog execute(Long userId) {
         List<DailySleepLog> result = provider.findByUserIdAndInterval(userId, LocalDate.now().atStartOfDay().minusMonths(1), LocalDateTime.now());
 
         if(Objects.isNull(result) || result.isEmpty()) {
