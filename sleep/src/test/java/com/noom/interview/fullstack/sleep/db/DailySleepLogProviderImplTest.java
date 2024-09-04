@@ -31,7 +31,6 @@ public class DailySleepLogProviderImplTest {
 
         DailySleepLog toSave = DailySleepLogFixture.defaultValuesNoId();
         DailySleepLog result = provider.save(toSave);
-
         Assertions.assertEquals(1L, result.getId());
 
         ArgumentCaptor<DailySleepLogDataMapper> captor = ArgumentCaptor.forClass(DailySleepLogDataMapper.class);
