@@ -12,3 +12,4 @@ Time in bed interval and total time in bed.
 
 
 ***
+For this test, I'm ignoring timezone issues, using ZoneOffset.UTC as default.
