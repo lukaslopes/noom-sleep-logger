@@ -7,6 +7,7 @@ import org.springframework.boot.runApplication
 class SleepApplication {
 	companion object {
 		const val UNIT_TEST_PROFILE = "unittest"
+		const val DB_TEST_PROFILE = "dbtest"
 	}
 }
 
