@@ -3,11 +3,7 @@ Hello, Lukas Lopes here.
 On this document, I will put all my thoughts on my decision making.
 
 ***
-Time in bed interval and total time in bed.
-        This information might be redundant, since, if we have the interval, we can calculate the total time in bed.
-    Or, if we have time in bed start and total time, we can calculate when the time in bed ends.
-        For the api, I will make only start time mandatory, but user should send bed end time or total time in bed. If the user sends both, (time end and total time),
-    I will calculate the total time.
+
     For database, I will save both informations, this way its easier to to create filters or searchs on future.
 
 
@@ -25,7 +21,10 @@ Also, we can manipulate data as needed for databases or apis freely, without aff
 
 
 ***
-For database tests, i used an h2 in mem test.
+For database tests, i used an h2 in mem test. I created a script to populate the database on test/resources/testdata
 
 ***
 I dont know if user can have more than 1 sleep per day, so, i dont created a unique index per user/date
+
+***
+For this test, i will use a generic exception handler instead of a specific per error to save time.
