@@ -16,8 +16,8 @@ public class AddSleepLogRequest {
     private LocalDate sleepDate;
     @JsonFormat(pattern = "HH:mm")
     private LocalTime sleepStart;
+
     @JsonFormat(pattern = "HH:mm")
     private LocalTime sleepEnd;
-    private Integer timeInBedInMinutes;
     private SleepQuality sleepQuality;
 }

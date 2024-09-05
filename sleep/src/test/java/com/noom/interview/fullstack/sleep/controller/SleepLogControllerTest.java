@@ -50,7 +50,6 @@ public class SleepLogControllerTest {
             .sleepStart(fixture.getSleepStart().toLocalTime())
             .sleepEnd(fixture.getSleepEnd().toLocalTime())
             .sleepQuality(fixture.getSleepQuality())
-            .timeInBedInMinutes(fixture.getSleepDuration().intValue())
             .build();
 
         when(saveSleepLog.save(ArgumentMatchers.any())).thenReturn(resultFixture);
@@ -76,7 +75,6 @@ public class SleepLogControllerTest {
         assertEquals(fixture.getSleepEnd(), sleepLog.getValue().getSleepEnd());
         assertEquals(fixture.getSleepStart(), sleepLog.getValue().getSleepStart());
         assertEquals(fixture.getSleepQuality(), sleepLog.getValue().getSleepQuality());
-        assertEquals(fixture.getSleepDuration(), sleepLog.getValue().getSleepDuration());
         assertEquals(fixture.getUserId(), sleepLog.getValue().getUserId());
 
     }
