@@ -1,5 +1,6 @@
 package com.noom.interview.fullstack.sleep.db
 
+import com.noom.interview.fullstack.sleep.SleepApplication.Companion.DB_TEST_PROFILE
 import com.noom.interview.fullstack.sleep.SleepApplication.Companion.UNIT_TEST_PROFILE
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.jdbc.DataSourceBuilder
@@ -13,7 +14,7 @@ import javax.sql.DataSource
 
 
 @Configuration
-@Profile("!$UNIT_TEST_PROFILE")
+@Profile("!$UNIT_TEST_PROFILE & !$DB_TEST_PROFILE")
 @EnableJpaAuditing
 class DatabaseConfiguration {
     @Value("\${spring.datasource.url}")

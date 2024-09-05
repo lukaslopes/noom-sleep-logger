@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "7d7c9f85-7060-4a3f-af5a-a5328e6af627",
+		"name": "Sleep Log - Local",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "9632902"
+	},
+	"item": [
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userId",
+						"value": "1",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sleepDate\": \"09/01/2024\",\r\n    \"sleepStart\": \"21:50\",\r\n    \"sleepEnd\": \"07:15\",\r\n    \"sleepQuality\": \"BAD\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/v1/sleeplog"
+			},
+			"response": []
+		},
+		{
+			"name": "LastMonth",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "userId",
+						"value": "1",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/v1/sleeplog/month"
+			},
+			"response": []
+		},
+		{
+			"name": "LastDay",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "userId",
+						"value": "1",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/v1/sleeplog"
+			},
+			"response": []
+		},
+		{
+			"name": "Create - Validate error",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userId",
+						"value": "1",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sleepDate\": \"09/01/2024\",\r\n    \"sleepStart\": \"21:50\",\r\n    \"sleepQuality\": \"BAD\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/v1/sleeplog"
+			},
+			"response": []
+		}
+	]
+}
