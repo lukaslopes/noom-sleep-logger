@@ -11,6 +11,5 @@ public class DailySleepLog {
     private Long userId;
     private LocalDateTime sleepStart;
     private LocalDateTime sleepEnd;
-    private Long sleepDuration;
     private SleepQuality sleepQuality;
 }

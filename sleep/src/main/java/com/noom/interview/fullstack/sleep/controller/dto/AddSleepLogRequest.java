@@ -21,9 +21,9 @@ public class AddSleepLogRequest {
     private LocalTime sleepStart;
 
     @JsonFormat(pattern = "HH:mm")
-    @NotNull(message = "sleepStart is required")
+    @NotNull(message = "sleepEnd is required")
     private LocalTime sleepEnd;
 
-    @NotNull(message = "sleepStart is required")
+    @NotNull(message = "sleepQuality is required")
     private SleepQuality sleepQuality;
 }

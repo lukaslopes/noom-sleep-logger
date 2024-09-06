@@ -2,10 +2,12 @@ package com.noom.interview.fullstack.sleep.usecase;
 
 import com.noom.interview.fullstack.sleep.db.*;
 import com.noom.interview.fullstack.sleep.domain.*;
+import com.noom.interview.fullstack.sleep.exception.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import java.time.*;
+import java.time.temporal.*;
 import java.util.*;
 
 @Service
@@ -20,17 +22,26 @@ public class SaveSleepLog {
     }
 
     public DailySleepLog save(DailySleepLog dailySleepLog) {
-        long timeInBedInMinutes = Duration.between(dailySleepLog.getSleepStart(), dailySleepLog.getSleepEnd()).toMinutes();
-        dailySleepLog.setSleepDuration(timeInBedInMinutes);
 
-        List<DailySleepLog> conflictLog = provider.findByUserIdAndInterval(dailySleepLog.getUserId(),
-            dailySleepLog.getSleepStart(),
-            dailySleepLog.getSleepEnd());
-
-        if(!conflictLog.isEmpty()) {
-            throw new RuntimeException("You already have a log between " + dailySleepLog.getSleepStart() + " and " + dailySleepLog.getSleepEnd());
-        }
+        checkOverlaps(dailySleepLog);
 
         return provider.save(dailySleepLog);
+    }
+
+    private void checkOverlaps(DailySleepLog dailySleepLog) {
+        List<DailySleepLog> conflictLog = provider.findByUserIdAndInterval(dailySleepLog.getUserId(),
+            dailySleepLog.getSleepStart().with(ChronoField.NANO_OF_DAY, LocalTime.MIN.toNanoOfDay()),
+            dailySleepLog.getSleepEnd().with(ChronoField.NANO_OF_DAY, LocalTime.MAX.toNanoOfDay()));
+
+        LocalDateTime start1 = dailySleepLog.getSleepStart();
+        LocalDateTime end1 = dailySleepLog.getSleepEnd();
+
+        for(DailySleepLog log : conflictLog) {
+            LocalDateTime start2 = log.getSleepStart();
+            LocalDateTime end2 = log.getSleepEnd();
+            if (!(end1.isBefore(start2) || start1.isAfter(end2)) || (start1.isAfter(start2) && end1.isBefore(end2))) {
+                throw new SleepLogAlreadyExistsException("You already have a log between " + log.getSleepStart() + " and " + log.getSleepEnd());
+            }
+        }
     }
 }

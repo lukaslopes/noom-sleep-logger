@@ -5,7 +5,7 @@ import com.noom.interview.fullstack.sleep.domain.*;
 
 import java.time.*;
 
-public class DailySleepLogDataMapperFixture {
+public class DailySleepLogEntityFixture {
 
     public static DailySleepLogEntity defaultValues() {
         DailySleepLog values = DailySleepLogFixture.defaultValues();
@@ -15,7 +15,7 @@ public class DailySleepLogDataMapperFixture {
             .sleepEnd(values.getSleepEnd())
             .userId(values.getUserId())
             .sleepQuality(values.getSleepQuality())
-            .sleepDuration(values.getSleepDuration())
+            .sleepDuration(600L)
             .createdAt(Instant.now())
             .modifiedAt(Instant.now())
             .build();
@@ -28,7 +28,7 @@ public class DailySleepLogDataMapperFixture {
             .sleepEnd(values.getSleepEnd())
             .userId(values.getUserId())
             .sleepQuality(values.getSleepQuality())
-            .sleepDuration(values.getSleepDuration())
+            .sleepDuration(600L)
             .build();
     }
 }

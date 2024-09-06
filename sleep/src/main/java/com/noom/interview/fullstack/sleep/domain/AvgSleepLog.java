@@ -11,7 +11,6 @@ public class AvgSleepLog {
     private Long userId;
     private LocalTime sleepStart;
     private LocalTime sleepEnd;
-    private Integer sleepDuration;
     private Map<SleepQuality, Integer> sleepQualityCount;
     private LocalDate startDate;
     private LocalDate endDate;

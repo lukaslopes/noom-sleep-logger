@@ -12,7 +12,6 @@ public class DailySleepLogFixture {
             .userId(1L)
             .sleepStart(LocalDateTime.of(2024, 1, 1, 22, 0))
             .sleepEnd(LocalDateTime.of(2024, 1, 2, 8, 0))
-            .sleepDuration(600L)
             .sleepQuality(SleepQuality.GOOD)
             .build();
     }
@@ -22,7 +21,6 @@ public class DailySleepLogFixture {
             .userId(1L)
             .sleepStart(LocalDateTime.of(2024, 1, 1, 22, 0))
             .sleepEnd(LocalDateTime.of(2024, 1, 2, 8, 0))
-            .sleepDuration(600L)
             .sleepQuality(SleepQuality.GOOD)
             .build();
     }
@@ -34,7 +32,6 @@ public class DailySleepLogFixture {
                 .userId(1L)
                 .sleepStart(LocalDateTime.of(2024, 1, 2, 23, 0))
                 .sleepEnd(LocalDateTime.of(2024, 1, 3, 6, 0))
-                .sleepDuration(500L)
                 .sleepQuality(SleepQuality.BAD)
                 .build(),
             DailySleepLog.builder()
@@ -42,7 +39,6 @@ public class DailySleepLogFixture {
                 .userId(1L)
                 .sleepStart(LocalDateTime.of(2024, 1, 3, 22, 40))
                 .sleepEnd(LocalDateTime.of(2024, 1, 4, 6, 40))
-                .sleepDuration(400L)
                 .sleepQuality(SleepQuality.GOOD)
                 .build());
     }
