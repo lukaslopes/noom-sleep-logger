@@ -4,12 +4,13 @@ import com.noom.interview.fullstack.sleep.controller.dto.*;
 import com.noom.interview.fullstack.sleep.domain.*;
 import com.noom.interview.fullstack.sleep.usecase.*;
 import lombok.*;
-import org.jetbrains.annotations.*;
 import org.slf4j.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.*;
+import javax.validation.*;
+import javax.validation.constraints.*;
 import java.time.*;
 import java.util.*;
 
@@ -26,7 +27,7 @@ public class SleepLogController {
 
 
     @PostMapping
-    public ResponseEntity<SleepLogResponse> save(@RequestHeader Long userId, @RequestBody AddSleepLogRequest request) {
+    public ResponseEntity<SleepLogResponse> save(@RequestHeader @NotNull Long userId, @RequestBody @Valid AddSleepLogRequest request) {
 
         DailySleepLog result = saveSleepLog.save(toEntityValidate(userId, request));
 
@@ -34,7 +35,7 @@ public class SleepLogController {
     }
 
     @GetMapping
-    public ResponseEntity<SleepLogResponse> lastSleep(@RequestHeader Long userId) {
+    public ResponseEntity<SleepLogResponse> lastSleep(@RequestHeader @NotNull Long userId) {
 
         DailySleepLog result = getLastSleep.execute(userId);
 
@@ -42,7 +43,7 @@ public class SleepLogController {
     }
 
     @GetMapping(path = "/month")
-    public ResponseEntity<AvgSleepLogResponse> lastMonth(@RequestHeader Long userId) {
+    public ResponseEntity<AvgSleepLogResponse> lastMonth(@RequestHeader @NotNull Long userId) {
 
         AvgSleepLog result = getLastMonth.execute(userId);
 
@@ -63,16 +64,6 @@ public class SleepLogController {
     }
 
     private DailySleepLog toEntityValidate(Long userId, AddSleepLogRequest request) {
-        if(Objects.isNull(userId)) {
-            throw new IllegalArgumentException("userId is required");
-        }
-        if(Objects.isNull(request.getSleepQuality())) {
-            throw new IllegalArgumentException("sleepQuality is required");
-        }
-        if(Objects.isNull(request.getSleepStart()) || Objects.isNull(request.getSleepEnd())) {
-            throw new IllegalArgumentException("sleepStart and sleepEnd are required");
-        }
-
         LocalDate sleepDate = Objects.isNull(request.getSleepDate())
             ? LocalDate.now()
             : request.getSleepDate();
