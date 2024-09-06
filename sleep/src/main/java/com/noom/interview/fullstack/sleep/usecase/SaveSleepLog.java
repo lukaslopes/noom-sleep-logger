@@ -2,6 +2,7 @@ package com.noom.interview.fullstack.sleep.usecase;
 
 import com.noom.interview.fullstack.sleep.db.*;
 import com.noom.interview.fullstack.sleep.domain.*;
+import com.noom.interview.fullstack.sleep.exception.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -28,7 +29,7 @@ public class SaveSleepLog {
             dailySleepLog.getSleepEnd());
 
         if(!conflictLog.isEmpty()) {
-            throw new RuntimeException("You already have a log between " + dailySleepLog.getSleepStart() + " and " + dailySleepLog.getSleepEnd());
+            throw new SleepLogAlreadyExistsException("You already have a log between " + dailySleepLog.getSleepStart() + " and " + dailySleepLog.getSleepEnd());
         }
 
         return provider.save(dailySleepLog);

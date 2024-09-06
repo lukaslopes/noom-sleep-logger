@@ -8,7 +8,6 @@ import org.slf4j.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.*;
 import javax.validation.*;
 import javax.validation.constraints.*;
 import java.time.*;
@@ -19,12 +18,9 @@ import java.util.*;
 @RequestMapping("/v1/sleeplog")
 public class SleepLogController {
 
-    private static final Logger log = LoggerFactory.getLogger(SleepLogController.class);
     private final SaveSleepLog saveSleepLog;
     private final GetLastMonth getLastMonth;
     private final GetLastSleep getLastSleep;
-
-
 
     @PostMapping
     public ResponseEntity<SleepLogResponse> save(@RequestHeader @NotNull Long userId, @RequestBody @Valid AddSleepLogRequest request) {
@@ -50,18 +46,6 @@ public class SleepLogController {
         return new ResponseEntity<>(toAvgLogResponseDTO(result), HttpStatus.OK);
     }
 
-    @ResponseBody
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorDTO handleException(HttpServletRequest request, Exception e) {
-        log.error(e.getMessage(), e);
-        return ErrorDTO.builder()
-            .timestamp(LocalDateTime.now())
-            .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-            .error(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
-            .message(e.getMessage())
-            .build();
-    }
 
     private DailySleepLog toEntityValidate(Long userId, AddSleepLogRequest request) {
         LocalDate sleepDate = Objects.isNull(request.getSleepDate())
