@@ -27,7 +27,7 @@ public class DailySleepLogProviderImplTest {
     @Test
     public void saveTest() {
         when(sleepLogRepository.save(any(DailySleepLogEntity.class)))
-            .thenReturn(DailySleepLogDataMapperFixture.defaultValues());
+            .thenReturn(DailySleepLogEntityFixture.defaultValues());
 
         DailySleepLog toSave = DailySleepLogFixture.defaultValuesNoId();
         DailySleepLog result = provider.save(toSave);
@@ -38,14 +38,13 @@ public class DailySleepLogProviderImplTest {
         DailySleepLogEntity data = captor.getValue();
         Assertions.assertEquals(toSave.getSleepStart(), data.getSleepStart());
         Assertions.assertEquals(toSave.getSleepEnd(), data.getSleepEnd());
-        Assertions.assertEquals(toSave.getSleepDuration(), data.getSleepDuration());
         Assertions.assertEquals(toSave.getSleepQuality(), data.getSleepQuality());
         Assertions.assertEquals(toSave.getUserId(), data.getUserId());
     }
 
     @Test
     public void findByIntervalTest(){
-        DailySleepLogEntity resultFixture = DailySleepLogDataMapperFixture.defaultValues();
+        DailySleepLogEntity resultFixture = DailySleepLogEntityFixture.defaultValues();
         when(sleepLogRepository.findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(anyLong(), any(LocalDateTime.class), any(LocalDateTime.class))).thenReturn(List.of(resultFixture));
 
         List<DailySleepLog> result = provider.findByUserIdAndInterval(1L, LocalDateTime.now(), LocalDateTime.now());
@@ -55,7 +54,6 @@ public class DailySleepLogProviderImplTest {
         DailySleepLog data = result.get(0);
         Assertions.assertEquals(resultFixture.getSleepStart(), data.getSleepStart());
         Assertions.assertEquals(resultFixture.getSleepEnd(), data.getSleepEnd());
-        Assertions.assertEquals(resultFixture.getSleepDuration(), data.getSleepDuration());
         Assertions.assertEquals(resultFixture.getSleepQuality(), data.getSleepQuality());
         Assertions.assertEquals(resultFixture.getUserId(), data.getUserId());
         Assertions.assertEquals(resultFixture.getId(), data.getId());

@@ -41,10 +41,6 @@ public class GetLasMonthTest {
         DailySleepLog log2 = fixtureList.get(1);
         DailySleepLog log3 = fixtureList.get(2);
 
-        //Test average
-        int avgDuration = (log1.getSleepDuration().intValue() + log2.getSleepDuration().intValue() + log3.getSleepDuration().intValue()) / 3;
-        assertEquals(result.getSleepDuration(), avgDuration);
-
         int avgStart = (log1.getSleepStart().toLocalTime().toSecondOfDay() + log2.getSleepStart().toLocalTime().toSecondOfDay() + log3.getSleepStart().toLocalTime().toSecondOfDay()) / 3;
         assertEquals(result.getSleepStart(), LocalTime.ofSecondOfDay(avgStart));
 

@@ -16,7 +16,6 @@ public class AvgSleepLogFixture {
             .userId(1L)
             .sleepStart(LocalTime.of(22, 0))
             .sleepEnd(LocalTime.of(8, 0))
-            .sleepDuration(600)
             .sleepQualityCount(qualityCount)
             .startDate(LocalDate.of(2024, 1, 1))
             .endDate(LocalDate.of(2024, 1, 2))

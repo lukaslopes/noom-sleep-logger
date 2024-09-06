@@ -4,12 +4,11 @@ import com.noom.interview.fullstack.sleep.controller.dto.*;
 import com.noom.interview.fullstack.sleep.domain.*;
 import com.noom.interview.fullstack.sleep.usecase.*;
 import lombok.*;
-import org.jetbrains.annotations.*;
-import org.slf4j.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.*;
+import javax.validation.*;
+import javax.validation.constraints.*;
 import java.time.*;
 import java.util.*;
 
@@ -18,15 +17,12 @@ import java.util.*;
 @RequestMapping("/v1/sleeplog")
 public class SleepLogController {
 
-    private static final Logger log = LoggerFactory.getLogger(SleepLogController.class);
     private final SaveSleepLog saveSleepLog;
     private final GetLastMonth getLastMonth;
     private final GetLastSleep getLastSleep;
 
-
-
     @PostMapping
-    public ResponseEntity<SleepLogResponse> save(@RequestHeader Long userId, @RequestBody AddSleepLogRequest request) {
+    public ResponseEntity<SleepLogResponse> save(@RequestHeader @NotNull Long userId, @RequestBody @Valid AddSleepLogRequest request) {
 
         DailySleepLog result = saveSleepLog.save(toEntityValidate(userId, request));
 
@@ -34,7 +30,7 @@ public class SleepLogController {
     }
 
     @GetMapping
-    public ResponseEntity<SleepLogResponse> lastSleep(@RequestHeader Long userId) {
+    public ResponseEntity<SleepLogResponse> lastSleep(@RequestHeader @NotNull Long userId) {
 
         DailySleepLog result = getLastSleep.execute(userId);
 
@@ -42,37 +38,15 @@ public class SleepLogController {
     }
 
     @GetMapping(path = "/month")
-    public ResponseEntity<AvgSleepLogResponse> lastMonth(@RequestHeader Long userId) {
+    public ResponseEntity<AvgSleepLogResponse> lastMonth(@RequestHeader @NotNull Long userId) {
 
         AvgSleepLog result = getLastMonth.execute(userId);
 
         return new ResponseEntity<>(toAvgLogResponseDTO(result), HttpStatus.OK);
     }
 
-    @ResponseBody
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorDTO handleException(HttpServletRequest request, Exception e) {
-        log.error(e.getMessage(), e);
-        return ErrorDTO.builder()
-            .timestamp(LocalDateTime.now())
-            .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-            .error(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
-            .message(e.getMessage())
-            .build();
-    }
 
     private DailySleepLog toEntityValidate(Long userId, AddSleepLogRequest request) {
-        if(Objects.isNull(userId)) {
-            throw new IllegalArgumentException("userId is required");
-        }
-        if(Objects.isNull(request.getSleepQuality())) {
-            throw new IllegalArgumentException("sleepQuality is required");
-        }
-        if(Objects.isNull(request.getSleepStart()) || Objects.isNull(request.getSleepEnd())) {
-            throw new IllegalArgumentException("sleepStart and sleepEnd are required");
-        }
-
         LocalDate sleepDate = Objects.isNull(request.getSleepDate())
             ? LocalDate.now()
             : request.getSleepDate();
@@ -106,7 +80,7 @@ public class SleepLogController {
             .sleepDate(result.getSleepEnd().toLocalDate())
             .sleepStart(result.getSleepStart().toLocalTime())
             .sleepEnd(result.getSleepEnd().toLocalTime())
-            .timeInBedInMinutes(result.getSleepDuration().intValue())
+            .sleepTime(calculateSleepTime(result.getSleepStart().toLocalTime(), result.getSleepEnd().toLocalTime()))
             .sleepQuality(result.getSleepQuality())
             .build();
     }
@@ -123,8 +97,14 @@ public class SleepLogController {
             .sleepDateEnd(result.getEndDate())
             .sleepStart(result.getSleepStart())
             .sleepEnd(result.getSleepEnd())
-            .timeInBedInMinutes(result.getSleepDuration())
+            .sleepTime(calculateSleepTime(result.getSleepStart(), result.getSleepEnd()))
             .sleepQualityCount(result.getSleepQualityCount())
             .build();
+    }
+
+    private LocalTime calculateSleepTime(LocalTime sleepStart, LocalTime sleepEnd) {
+        return sleepStart.isAfter(sleepEnd)
+            ? LocalTime.ofSecondOfDay( Duration.between(sleepStart, LocalTime.MAX).toSeconds() + sleepEnd.toSecondOfDay()+1 )
+            : LocalTime.ofSecondOfDay( sleepEnd.toSecondOfDay()+1 - sleepStart.toSecondOfDay() );
     }
 }

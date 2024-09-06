@@ -64,7 +64,6 @@ public class SleepLogControllerTest {
             .andExpect(jsonPath("$.sleepDate").value(dateFormatter.format(resultFixture.getSleepEnd().toLocalDate())))
             .andExpect(jsonPath("$.sleepStart").value(timeFormatter.format(resultFixture.getSleepStart().toLocalTime())))
             .andExpect(jsonPath("$.sleepEnd").value(timeFormatter.format(resultFixture.getSleepEnd().toLocalTime())))
-            .andExpect(jsonPath("$.timeInBedInMinutes").value(resultFixture.getSleepDuration().intValue()))
             .andExpect(jsonPath("$.sleepQuality").value(resultFixture.getSleepQuality().toString()));
 
 
@@ -96,7 +95,6 @@ public class SleepLogControllerTest {
             .andExpect(jsonPath("$.sleepDate").value(dateFormatter.format(resultFixture.getSleepEnd().toLocalDate())))
             .andExpect(jsonPath("$.sleepStart").value(timeFormatter.format(resultFixture.getSleepStart().toLocalTime())))
             .andExpect(jsonPath("$.sleepEnd").value(timeFormatter.format(resultFixture.getSleepEnd().toLocalTime())))
-            .andExpect(jsonPath("$.timeInBedInMinutes").value(resultFixture.getSleepDuration().intValue()))
             .andExpect(jsonPath("$.sleepQuality").value(resultFixture.getSleepQuality().toString()));
 
     }
@@ -118,7 +116,7 @@ public class SleepLogControllerTest {
             .andExpect(jsonPath("$.sleepDateEnd").value(dateFormatter.format(resultFixture.getEndDate())))
             .andExpect(jsonPath("$.sleepStart").value(timeFormatter.format(resultFixture.getSleepStart())))
             .andExpect(jsonPath("$.sleepEnd").value(timeFormatter.format(resultFixture.getSleepEnd())))
-            .andExpect(jsonPath("$.timeInBedInMinutes").value(resultFixture.getSleepDuration().toString()))
+            .andExpect(jsonPath("$.sleepTime").value("10:00"))
             .andExpect(jsonPath("$.sleepQualityCount.BAD").value(resultFixture.getSleepQualityCount().get(SleepQuality.BAD)))
             .andExpect(jsonPath("$.sleepQualityCount.OK").value(resultFixture.getSleepQualityCount().get(SleepQuality.OK)))
             .andExpect(jsonPath("$.sleepQualityCount.GOOD").value(resultFixture.getSleepQualityCount().get(SleepQuality.GOOD)));

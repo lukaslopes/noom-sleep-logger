@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import java.time.*;
+import java.util.*;
 
 @Data
 @AllArgsConstructor
@@ -13,6 +14,5 @@ public class ErrorDTO {
     @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss")
     private LocalDateTime timestamp;
     private int status;
-    private String error;
-    private String message;
+    private List<String> errors;
 }
