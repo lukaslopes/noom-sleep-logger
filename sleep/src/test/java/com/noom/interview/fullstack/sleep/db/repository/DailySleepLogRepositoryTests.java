@@ -1,7 +1,7 @@
 package com.noom.interview.fullstack.sleep.db.repository;
 
-import com.noom.interview.fullstack.sleep.db.datamapper.*;
-import com.noom.interview.fullstack.sleep.entity.*;
+import com.noom.interview.fullstack.sleep.db.entity.*;
+import com.noom.interview.fullstack.sleep.domain.*;
 import com.noom.interview.fullstack.sleep.fixtures.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
@@ -25,18 +25,18 @@ public class DailySleepLogRepositoryTests {
     public void dataLoadTest() {
         Assertions.assertNotNull(repository);
 
-        List<DailySleepLogDataMapper> data = repository.findAll();
+        List<DailySleepLogEntity> data = repository.findAll();
         Assertions.assertEquals(3, data.size());
     }
 
     @Test
     public void insertDataTest() {
-        DailySleepLogDataMapper fixture = DailySleepLogDataMapperFixture.insertValues();
+        DailySleepLogEntity fixture = DailySleepLogDataMapperFixture.insertValues();
         repository.save(fixture);
 
-        List<DailySleepLogDataMapper> data = repository.findAll();
+        List<DailySleepLogEntity> data = repository.findAll();
         Assertions.assertEquals(4, data.size());
-        Optional<DailySleepLogDataMapper> insertedData = repository.findById(4L);
+        Optional<DailySleepLogEntity> insertedData = repository.findById(4L);
         Assertions.assertTrue(insertedData.isPresent());
         Assertions.assertEquals(fixture.getSleepDuration(), insertedData.get().getSleepDuration());
         Assertions.assertEquals(fixture.getSleepQuality(), insertedData.get().getSleepQuality());
@@ -45,7 +45,7 @@ public class DailySleepLogRepositoryTests {
 
     @Test
     public void findByUserIdAndIntervalTest() {
-        List<DailySleepLogDataMapper> data = repository.findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(2L,
+        List<DailySleepLogEntity> data = repository.findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(2L,
             LocalDateTime.of(2024, 1, 2, 0, 0),
             LocalDateTime.of(2024, 1, 2, 23, 59));
         Assertions.assertEquals(1, data.size());
@@ -54,7 +54,7 @@ public class DailySleepLogRepositoryTests {
 
     @Test
     public void findByUserIdAndIntervalTwoDaysTest() {
-        List<DailySleepLogDataMapper> data = repository.findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(2L,
+        List<DailySleepLogEntity> data = repository.findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(2L,
             LocalDateTime.of(2024, 1, 2, 0, 0),
             LocalDateTime.of(2024, 1, 3, 23, 59));
         Assertions.assertEquals(2, data.size());

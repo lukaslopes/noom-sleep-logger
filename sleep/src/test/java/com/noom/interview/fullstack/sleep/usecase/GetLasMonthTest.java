@@ -1,7 +1,7 @@
 package com.noom.interview.fullstack.sleep.usecase;
 
 import com.noom.interview.fullstack.sleep.db.*;
-import com.noom.interview.fullstack.sleep.entity.*;
+import com.noom.interview.fullstack.sleep.domain.*;
 import com.noom.interview.fullstack.sleep.fixtures.*;
 import org.junit.jupiter.api.*;
 import org.mockito.*;

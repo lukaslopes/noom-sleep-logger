@@ -2,7 +2,7 @@ package com.noom.interview.fullstack.sleep.controller;
 
 import com.fasterxml.jackson.databind.*;
 import com.noom.interview.fullstack.sleep.controller.dto.*;
-import com.noom.interview.fullstack.sleep.entity.*;
+import com.noom.interview.fullstack.sleep.domain.*;
 import com.noom.interview.fullstack.sleep.fixtures.*;
 import com.noom.interview.fullstack.sleep.usecase.*;
 import org.junit.jupiter.api.*;

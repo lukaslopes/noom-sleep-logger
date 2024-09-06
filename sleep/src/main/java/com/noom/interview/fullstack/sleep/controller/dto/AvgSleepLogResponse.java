@@ -1,7 +1,7 @@
 package com.noom.interview.fullstack.sleep.controller.dto;
 
 import com.fasterxml.jackson.annotation.*;
-import com.noom.interview.fullstack.sleep.entity.*;
+import com.noom.interview.fullstack.sleep.domain.*;
 import lombok.*;
 
 import java.time.*;

@@ -1,4 +1,4 @@
-package com.noom.interview.fullstack.sleep.entity;
+package com.noom.interview.fullstack.sleep.domain;
 
 import lombok.*;
 

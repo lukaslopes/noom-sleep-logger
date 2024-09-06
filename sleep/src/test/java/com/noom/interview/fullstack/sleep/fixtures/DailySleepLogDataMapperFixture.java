@@ -1,15 +1,15 @@
 package com.noom.interview.fullstack.sleep.fixtures;
 
-import com.noom.interview.fullstack.sleep.db.datamapper.*;
-import com.noom.interview.fullstack.sleep.entity.*;
+import com.noom.interview.fullstack.sleep.db.entity.*;
+import com.noom.interview.fullstack.sleep.domain.*;
 
 import java.time.*;
 
 public class DailySleepLogDataMapperFixture {
 
-    public static DailySleepLogDataMapper defaultValues() {
+    public static DailySleepLogEntity defaultValues() {
         DailySleepLog values = DailySleepLogFixture.defaultValues();
-        return DailySleepLogDataMapper.builder()
+        return DailySleepLogEntity.builder()
             .id(values.getId())
             .sleepStart(values.getSleepStart())
             .sleepEnd(values.getSleepEnd())
@@ -21,9 +21,9 @@ public class DailySleepLogDataMapperFixture {
             .build();
     }
 
-    public static DailySleepLogDataMapper insertValues() {
+    public static DailySleepLogEntity insertValues() {
         DailySleepLog values = DailySleepLogFixture.defaultValuesNoId();
-        return DailySleepLogDataMapper.builder()
+        return DailySleepLogEntity.builder()
             .sleepStart(values.getSleepStart())
             .sleepEnd(values.getSleepEnd())
             .userId(values.getUserId())

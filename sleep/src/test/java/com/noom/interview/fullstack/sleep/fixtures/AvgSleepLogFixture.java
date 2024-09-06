@@ -1,6 +1,6 @@
 package com.noom.interview.fullstack.sleep.fixtures;
 
-import com.noom.interview.fullstack.sleep.entity.*;
+import com.noom.interview.fullstack.sleep.domain.*;
 
 import java.time.*;
 import java.util.*;

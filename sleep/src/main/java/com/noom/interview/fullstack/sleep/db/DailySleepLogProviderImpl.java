@@ -1,8 +1,8 @@
 package com.noom.interview.fullstack.sleep.db;
 
-import com.noom.interview.fullstack.sleep.db.datamapper.*;
+import com.noom.interview.fullstack.sleep.db.entity.*;
 import com.noom.interview.fullstack.sleep.db.repository.*;
-import com.noom.interview.fullstack.sleep.entity.*;
+import com.noom.interview.fullstack.sleep.domain.*;
 import lombok.*;
 import org.springframework.stereotype.*;
 
@@ -18,7 +18,7 @@ public class DailySleepLogProviderImpl implements DailySleepLogProvider {
 
     @Override
     public DailySleepLog save(DailySleepLog dailySleepLog) {
-        DailySleepLogDataMapper data = repository.save(toDataMapper(dailySleepLog));
+        DailySleepLogEntity data = repository.save(toDataMapper(dailySleepLog));
 
         dailySleepLog.setId(data.getId());
         return dailySleepLog;
@@ -26,14 +26,14 @@ public class DailySleepLogProviderImpl implements DailySleepLogProvider {
 
     @Override
     public List<DailySleepLog> findByUserIdAndInterval(Long userId, LocalDateTime start, LocalDateTime end) {
-        List<DailySleepLogDataMapper> result = repository.findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(userId,
+        List<DailySleepLogEntity> result = repository.findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(userId,
             start , end);
 
         return result.stream().map(this::toEntity).collect(Collectors.toList());
     }
 
-    private static DailySleepLogDataMapper toDataMapper(DailySleepLog dailySleepLog) {
-        return DailySleepLogDataMapper.builder()
+    private static DailySleepLogEntity toDataMapper(DailySleepLog dailySleepLog) {
+        return DailySleepLogEntity.builder()
             .userId(dailySleepLog.getUserId())
             .sleepStart(dailySleepLog.getSleepStart())
             .sleepEnd(dailySleepLog.getSleepEnd())
@@ -42,14 +42,14 @@ public class DailySleepLogProviderImpl implements DailySleepLogProvider {
             .build();
     }
 
-    private DailySleepLog toEntity(DailySleepLogDataMapper dailySleepLogDataMapper) {
+    private DailySleepLog toEntity(DailySleepLogEntity dailySleepLogEntity) {
         return DailySleepLog.builder()
-            .id(dailySleepLogDataMapper.getId())
-            .userId(dailySleepLogDataMapper.getUserId())
-            .sleepDuration(dailySleepLogDataMapper.getSleepDuration())
-            .sleepStart(dailySleepLogDataMapper.getSleepStart())
-            .sleepEnd(dailySleepLogDataMapper.getSleepEnd())
-            .sleepQuality(dailySleepLogDataMapper.getSleepQuality())
+            .id(dailySleepLogEntity.getId())
+            .userId(dailySleepLogEntity.getUserId())
+            .sleepDuration(dailySleepLogEntity.getSleepDuration())
+            .sleepStart(dailySleepLogEntity.getSleepStart())
+            .sleepEnd(dailySleepLogEntity.getSleepEnd())
+            .sleepQuality(dailySleepLogEntity.getSleepQuality())
             .build();
     }
 }
