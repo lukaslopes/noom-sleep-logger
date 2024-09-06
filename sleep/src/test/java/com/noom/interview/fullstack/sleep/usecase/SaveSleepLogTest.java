@@ -35,9 +35,6 @@ public class SaveSleepLogTest {
 
         ArgumentCaptor<DailySleepLog> captor = ArgumentCaptor.forClass(DailySleepLog.class);
         verify(provider, times(1)).save(captor.capture());
-
-        Long duration = Duration.between(result.getSleepStart(), result.getSleepEnd()).toMinutes();
-        assertEquals(duration, captor.getValue().getSleepDuration());
     }
 
     @Test

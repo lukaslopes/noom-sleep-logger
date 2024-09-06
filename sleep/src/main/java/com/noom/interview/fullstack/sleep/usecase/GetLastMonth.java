@@ -26,7 +26,6 @@ public class GetLastMonth {
             return null;
         }
 
-        AtomicInteger totalSleepDuration = new AtomicInteger();
         AtomicInteger totalSleepStart = new AtomicInteger();
         AtomicInteger totalSleepEnd = new AtomicInteger();
         Map<SleepQuality, Integer> sleepQualityCount = new HashMap<>();
@@ -35,17 +34,18 @@ public class GetLastMonth {
         sleepQualityCount.put(SleepQuality.GOOD, 0);
 
         result.forEach(log -> {
-            totalSleepDuration.addAndGet(log.getSleepDuration().intValue());
             totalSleepStart.addAndGet(log.getSleepStart().toLocalTime().toSecondOfDay());
             totalSleepEnd.addAndGet(log.getSleepEnd().toLocalTime().toSecondOfDay());
             sleepQualityCount.put(log.getSleepQuality(), sleepQualityCount.get(log.getSleepQuality()) + 1);
         });
 
+        LocalTime avgSleepStart = LocalTime.ofSecondOfDay(totalSleepStart.get()/result.size());
+        LocalTime avgSleepEnd = LocalTime.ofSecondOfDay(totalSleepEnd.get()/result.size());
+
         return AvgSleepLog.builder()
             .userId(userId)
-            .sleepStart(LocalTime.ofSecondOfDay(totalSleepStart.get()/result.size()))
-            .sleepEnd(LocalTime.ofSecondOfDay(totalSleepEnd.get()/result.size()))
-            .sleepDuration(totalSleepDuration.get()/result.size())
+            .sleepStart(avgSleepStart)
+            .sleepEnd(avgSleepEnd)
             .sleepQualityCount(sleepQualityCount)
             .startDate(LocalDate.now().minusMonths(1))
             .endDate(LocalDate.now())

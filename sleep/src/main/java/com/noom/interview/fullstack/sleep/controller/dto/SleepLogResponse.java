@@ -20,7 +20,8 @@ public class SleepLogResponse {
     private LocalTime sleepStart;
     @JsonFormat(pattern = "HH:mm")
     private LocalTime sleepEnd;
-    private Integer timeInBedInMinutes;
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime sleepTime;
     private SleepQuality sleepQuality;
 
 }

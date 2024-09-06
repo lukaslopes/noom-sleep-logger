@@ -31,7 +31,7 @@ public class DailySleepLogRepositoryTests {
 
     @Test
     public void insertDataTest() {
-        DailySleepLogEntity fixture = DailySleepLogDataMapperFixture.insertValues();
+        DailySleepLogEntity fixture = DailySleepLogEntityFixture.insertValues();
         repository.save(fixture);
 
         List<DailySleepLogEntity> data = repository.findAll();

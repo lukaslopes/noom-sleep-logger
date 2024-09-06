@@ -18,7 +18,7 @@ public class DailySleepLogProviderImpl implements DailySleepLogProvider {
 
     @Override
     public DailySleepLog save(DailySleepLog dailySleepLog) {
-        DailySleepLogEntity data = repository.save(toDataMapper(dailySleepLog));
+        DailySleepLogEntity data = repository.save(toEntity(dailySleepLog));
 
         dailySleepLog.setId(data.getId());
         return dailySleepLog;
@@ -29,24 +29,24 @@ public class DailySleepLogProviderImpl implements DailySleepLogProvider {
         List<DailySleepLogEntity> result = repository.findByUserIdAndSleepEndBetweenOrderBySleepEndDesc(userId,
             start , end);
 
-        return result.stream().map(this::toEntity).collect(Collectors.toList());
+        return result.stream().map(this::toDomain).collect(Collectors.toList());
     }
 
-    private static DailySleepLogEntity toDataMapper(DailySleepLog dailySleepLog) {
+    private static DailySleepLogEntity toEntity(DailySleepLog dailySleepLog) {
+        long timeInBedInMinutes = Duration.between(dailySleepLog.getSleepStart(), dailySleepLog.getSleepEnd()).toMinutes();
         return DailySleepLogEntity.builder()
             .userId(dailySleepLog.getUserId())
             .sleepStart(dailySleepLog.getSleepStart())
             .sleepEnd(dailySleepLog.getSleepEnd())
-            .sleepDuration(dailySleepLog.getSleepDuration())
+            .sleepDuration(timeInBedInMinutes)
             .sleepQuality(dailySleepLog.getSleepQuality())
             .build();
     }
 
-    private DailySleepLog toEntity(DailySleepLogEntity dailySleepLogEntity) {
+    private DailySleepLog toDomain(DailySleepLogEntity dailySleepLogEntity) {
         return DailySleepLog.builder()
             .id(dailySleepLogEntity.getId())
             .userId(dailySleepLogEntity.getUserId())
-            .sleepDuration(dailySleepLogEntity.getSleepDuration())
             .sleepStart(dailySleepLogEntity.getSleepStart())
             .sleepEnd(dailySleepLogEntity.getSleepEnd())
             .sleepQuality(dailySleepLogEntity.getSleepQuality())

@@ -4,7 +4,6 @@ import com.noom.interview.fullstack.sleep.controller.dto.*;
 import com.noom.interview.fullstack.sleep.domain.*;
 import com.noom.interview.fullstack.sleep.usecase.*;
 import lombok.*;
-import org.slf4j.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,7 +80,7 @@ public class SleepLogController {
             .sleepDate(result.getSleepEnd().toLocalDate())
             .sleepStart(result.getSleepStart().toLocalTime())
             .sleepEnd(result.getSleepEnd().toLocalTime())
-            .timeInBedInMinutes(result.getSleepDuration().intValue())
+            .sleepTime(calculateSleepTime(result.getSleepStart().toLocalTime(), result.getSleepEnd().toLocalTime()))
             .sleepQuality(result.getSleepQuality())
             .build();
     }
@@ -98,8 +97,14 @@ public class SleepLogController {
             .sleepDateEnd(result.getEndDate())
             .sleepStart(result.getSleepStart())
             .sleepEnd(result.getSleepEnd())
-            .timeInBedInMinutes(result.getSleepDuration())
+            .sleepTime(calculateSleepTime(result.getSleepStart(), result.getSleepEnd()))
             .sleepQualityCount(result.getSleepQualityCount())
             .build();
+    }
+
+    private LocalTime calculateSleepTime(LocalTime sleepStart, LocalTime sleepEnd) {
+        return sleepStart.isAfter(sleepEnd)
+            ? LocalTime.ofSecondOfDay( Duration.between(sleepStart, LocalTime.MAX).toSeconds() + sleepEnd.toSecondOfDay()+1 )
+            : LocalTime.ofSecondOfDay( sleepEnd.toSecondOfDay()+1 - sleepStart.toSecondOfDay() );
     }
 }
