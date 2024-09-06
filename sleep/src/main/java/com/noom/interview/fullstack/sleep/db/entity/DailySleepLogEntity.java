@@ -1,6 +1,6 @@
-package com.noom.interview.fullstack.sleep.db.datamapper;
+package com.noom.interview.fullstack.sleep.db.entity;
 
-import com.noom.interview.fullstack.sleep.entity.*;
+import com.noom.interview.fullstack.sleep.domain.*;
 import lombok.*;
 import org.springframework.data.annotation.*;
 
@@ -13,7 +13,7 @@ import java.time.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DailySleepLogDataMapper {
+public class DailySleepLogEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
